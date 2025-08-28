@@ -52,14 +52,13 @@ const loginUser = asyncHandler(async (req, res) => {
 
 // Search Users
 const allUsers = asyncHandler(async (req, res) => {
-  const keyword = req.query.search
-    ? {
-        $or: [{ rollNumber: { $regex: req.query.search, $options: "i" } }],
-      }
-    : {};
-
-  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
-  res.send(users);
+   try {
+    // Fetch all users
+    const users = await User.find({});
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching users", error: error.message });
+  }
 });
 
 module.exports = { registerUser, loginUser, allUsers };
