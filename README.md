@@ -1,67 +1,87 @@
-# Cummins Job Portal API Documentation
+# Cummins Job Portal API
 
-**Base URL:** `https://cummins.onrender.com`
+This API allows users and admins to register, login, post jobs, and apply for jobs.
+
+Base URL: `https://cummins.onrender.com`
 
 ---
 
-## 1. User Registration
-**POST** `/user/registerUser`  
-Register a new user (normal or admin).  
+## **1. User Registration**
 
-**Normal User Request:**
+**Endpoint:** `POST /user/registerUser`  
+
+### **Normal User Request**
 ```json
-{ "rollNumber": "123456", "password": "yourPassword123", "isAdmin": false }
-Admin User Request:
-
+{
+  "rollNumber": "123456",
+  "password": "yourPassword123",
+  "isAdmin": false
+}
+Admin User Request
 json
 Copy code
-{ "rollNumber": "admin", "password": "admin", "isAdmin": true }
-Response:
-
+{
+  "rollNumber": "admin",
+  "password": "admin",
+  "isAdmin": true
+}
+Response
 json
 Copy code
-{ "_id": "68b0862d2dd650b8ca049edb", "rollNumber": "123456", "isAdmin": false, "token": "JWT_TOKEN_HERE" }
+{
+  "_id": "68b0862d2dd650b8ca049edb",
+  "rollNumber": "123456",
+  "isAdmin": false,
+  "token": "JWT_TOKEN_HERE"
+}
 2. User Login
-POST /user/loginUser
-Login as user/admin.
+Endpoint: POST /user/loginUser
 
-Request Example:
-
+Request Example
 json
 Copy code
-{ "rollNumber": "admin", "password": "admin" }
-Response:
-
+{
+  "rollNumber": "admin",
+  "password": "admin"
+}
+Response Example
 json
 Copy code
-{ "_id": "68b0867a2dd650b8ca049edf", "rollNumber": "admin", "isAdmin": true, "token": "JWT_TOKEN_HERE" }
+{
+  "_id": "68b0867a2dd650b8ca049edf",
+  "rollNumber": "admin",
+  "isAdmin": true,
+  "token": "JWT_TOKEN_HERE"
+}
 3. Get All Users
-GET /user/
-Fetch all users. Response: [] (array of users)
+Endpoint: GET /user/
 
-4. Post a Job (Admin Only)
-POST /adminPortal/post
-Request:
+Response Example
+json
+Copy code
+[]
+4. Post a Job (Admin or User)
+Endpoint: POST /adminPortal/post
 
+Request Example
 json
 Copy code
 {
   "title": "Frontend Developer",
   "company": "Innovative Tech Solutions",
-  "description": "React.js developer with 2+ years experience.",
+  "description": "We are hiring a React.js developer with 2+ years of experience in building modern web applications.",
   "location": "Nagpur, Maharashtra",
   "salary": "₹5,00,000 - ₹7,00,000 per year",
   "jobType": "Full-time",
   "createdBy": "68b05481de173a2fc8add16b"
 }
-Response:
-
+Response Example
 json
 Copy code
 {
   "title": "Frontend Developer",
   "company": "Innovative Tech Solutions",
-  "description": "React.js developer with 2+ years experience.",
+  "description": "We are hiring a React.js developer with 2+ years of experience in building modern web applications.",
   "location": "Nagpur, Maharashtra",
   "salary": "₹5,00,000 - ₹7,00,000 per year",
   "jobType": "Full-time",
@@ -73,33 +93,42 @@ Copy code
   "updatedAt": "2025-08-28T16:54:14.159Z",
   "__v": 0
 }
-5. Apply for a Job (User)
-POST /adminPortal/apply
-Request:
+5. Apply for a Job
+Endpoint: POST /adminPortal/apply
 
+Request Example
 json
 Copy code
-{ "userId": "68b0862d2dd650b8ca049edb", "jobId": "68b06a4dbd8507a86ecb0f9c" }
-Response:
-
+{
+  "userId": "68b0862d2dd650b8ca049edb",
+  "jobId": "68b06a4dbd8507a86ecb0f9c"
+}
+Response Example
 json
 Copy code
-{ "message": "Application submitted successfully", "jobId": "68b06a4dbd8507a86ecb0f9c", "userId": "68b0862d2dd650b8ca049edb" }
-6. Get All Jobs / User Applications
-GET /
-Optional filter by user:
+{
+  "message": "Application submitted successfully",
+  "jobId": "68b06a4dbd8507a86ecb0f9c",
+  "userId": "68b0862d2dd650b8ca049edb"
+}
+6. Get All Applications for a User
+Endpoint: GET /
 
+Request Example
 json
 Copy code
-{ "userId": "68b0862d2dd650b8ca049edb" }
-Response: Array of jobs or applied jobs.
-
+{
+  "userId": "68b0862d2dd650b8ca049edb"
+}
+Response Example
+json
+Copy code
+[]
 Notes
-Auth: Include JWT token in headers:
-Authorization: Bearer <your_token_here>
+isAdmin field determines whether a user has admin privileges.
 
-Roles:
+token is a JWT used for authentication in protected routes.
 
-isAdmin = true → Admin (can post jobs)
+createdBy should include the _id of the user creating the job post.
 
-isAdmin = false → User (can apply for jobs)
+All endpoints return JSON responses.
