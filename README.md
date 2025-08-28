@@ -11,7 +11,9 @@ Base URL: `https://cummins.onrender.com` — This API allows users and admins to
 - Request: `{"rollNumber":"admin","password":"admin"}` 
 - Response: `{"_id":"68b0867a2dd650b8ca049edf","rollNumber":"admin","isAdmin":true,"token":"JWT_TOKEN_HERE"}`  
 
-**3. Get All Users:** `GET /user/` — Response: `[]`  
+**3. Get All Users:** `GET /user/`
+- Request: `{"userId":"68b0862d2dd650b8ca049edb"}` 
+- Response: `[]`  
 
 **4. Post a Job (Admin/User):** `POST /adminPortal/post`
 - Request: `{"title":"Frontend Developer","company":"Innovative Tech Solutions","description":"We are hiring a React.js developer with 2+ years of experience in building modern web applications.","location":"Nagpur, Maharashtra","salary":"₹5,00,000 - ₹7,00,000 per year","jobType":"Full-time","createdBy":"68b05481de173a2fc8add16b"}`
@@ -21,8 +23,7 @@ Base URL: `https://cummins.onrender.com` — This API allows users and admins to
 - Request: `{"userId":"68b0862d2dd650b8ca049edb","jobId":"68b06a4dbd8507a86ecb0f9c"}` 
 - Response: `{"message":"Application submitted successfully","jobId":"68b06a4dbd8507a86ecb0f9c","userId":"68b0862d2dd650b8ca049edb"}`  
 
-**6. Get All Applications for a User:** `GET /`
-- Request: `{"userId":"68b0862d2dd650b8ca049edb"}` 
+**6. Get All Job list:** `GET /adminPortal/`
 - Response: `[]`  
 
 **Notes:** `isAdmin` determines admin privileges, `token` is JWT for authentication, `createdBy` is `_id` of user creating job, all endpoints return JSON.
