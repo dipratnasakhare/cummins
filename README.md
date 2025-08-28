@@ -2,10 +2,10 @@
 
 Base URL: `https://cummins.onrender.com` — This API allows users and admins to register, login, post jobs, and apply for jobs.  
 
-**1. User Registration:** `POST /user/registerUser` — 
-Normal User: `{"rollNumber":"123456","password":"yourPassword123","isAdmin":false}` —
-Admin User: `{"rollNumber":"admin","password":"admin","isAdmin":true}` —
-Response: `{"_id":"68b0862d2dd650b8ca049edb","rollNumber":"123456","isAdmin":false,"token":"JWT_TOKEN_HERE"}`  
+**1. User Registration:** `POST /user/registerUser` 
+- Normal User: `{"rollNumber":"123456","password":"yourPassword123","isAdmin":false}` 
+- Admin User: `{"rollNumber":"admin","password":"admin","isAdmin":true}` 
+- Response: `{"_id":"68b0862d2dd650b8ca049edb","rollNumber":"123456","isAdmin":false,"token":"JWT_TOKEN_HERE"}`  
 
 **2. User Login:** `POST /user/loginUser` — 
 Request: `{"rollNumber":"admin","password":"admin"}` — 
