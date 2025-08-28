@@ -1,114 +1,67 @@
-Cummins Job Portal API Documentation
+# Cummins Job Portal API Documentation
 
-Base URL: https://cummins.onrender.com
+**Base URL:** `https://cummins.onrender.com`
 
-1. User Registration
+---
 
-Endpoint: POST /user/registerUser
+## 1. User Registration
+**POST** `/user/registerUser`  
+Register a new user (normal or admin).  
 
-Description: Register a new user (normal or admin).
+**Normal User Request:**
+```json
+{ "rollNumber": "123456", "password": "yourPassword123", "isAdmin": false }
+Admin User Request:
 
-Request Body (Normal User):
-
-{
-  "rollNumber": "123456",
-  "password": "yourPassword123",
-  "isAdmin": false
-}
-
-
-Request Body (Admin User):
-
-{
-  "rollNumber": "admin",
-  "password": "admin",
-  "isAdmin": true
-}
-
-
-Response (Normal User):
-
-{
-  "_id": "68b0862d2dd650b8ca049edb",
-  "rollNumber": "123456",
-  "isAdmin": false,
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-}
-
-
-Response (Admin User):
-
-{
-  "_id": "68b0867a2dd650b8ca049edf",
-  "rollNumber": "admin",
-  "isAdmin": true,
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-}
-
-2. User Login
-
-Endpoint: POST /user/loginUser
-
-Description: Login as a user or admin.
-
-Request Body (Example for Admin):
-
-{
-  "rollNumber": "admin",
-  "password": "admin"
-}
-
-
+json
+Copy code
+{ "rollNumber": "admin", "password": "admin", "isAdmin": true }
 Response:
 
-{
-  "_id": "68b0867a2dd650b8ca049edf",
-  "rollNumber": "admin",
-  "isAdmin": true,
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-}
+json
+Copy code
+{ "_id": "68b0862d2dd650b8ca049edb", "rollNumber": "123456", "isAdmin": false, "token": "JWT_TOKEN_HERE" }
+2. User Login
+POST /user/loginUser
+Login as user/admin.
 
+Request Example:
 
-Works similarly for normal users.
+json
+Copy code
+{ "rollNumber": "admin", "password": "admin" }
+Response:
 
+json
+Copy code
+{ "_id": "68b0867a2dd650b8ca049edf", "rollNumber": "admin", "isAdmin": true, "token": "JWT_TOKEN_HERE" }
 3. Get All Users
-
-Endpoint: GET /user/
-
-Description: Fetch all users in the system.
-
-Response Example:
-
-[]
-
-
-Returns an array of all registered users.
+GET /user/
+Fetch all users. Response: [] (array of users)
 
 4. Post a Job (Admin Only)
+POST /adminPortal/post
+Request:
 
-Endpoint: POST /adminPortal/post
-
-Description: Admin can create a new job posting.
-
-Request Body:
-
+json
+Copy code
 {
   "title": "Frontend Developer",
   "company": "Innovative Tech Solutions",
-  "description": "We are hiring a React.js developer with 2+ years of experience in building modern web applications.",
+  "description": "React.js developer with 2+ years experience.",
   "location": "Nagpur, Maharashtra",
   "salary": "₹5,00,000 - ₹7,00,000 per year",
   "jobType": "Full-time",
   "createdBy": "68b05481de173a2fc8add16b"
 }
-
-
 Response:
 
+json
+Copy code
 {
   "title": "Frontend Developer",
   "company": "Innovative Tech Solutions",
-  "description": "We are hiring a React.js developer with 2+ years of experience in building modern web applications.",
+  "description": "React.js developer with 2+ years experience.",
   "location": "Nagpur, Maharashtra",
   "salary": "₹5,00,000 - ₹7,00,000 per year",
   "jobType": "Full-time",
@@ -120,56 +73,33 @@ Response:
   "updatedAt": "2025-08-28T16:54:14.159Z",
   "__v": 0
 }
-
 5. Apply for a Job (User)
+POST /adminPortal/apply
+Request:
 
-Endpoint: POST /adminPortal/apply
-
-Description: User can apply to a job.
-
-Request Body:
-
-{
-  "userId": "68b0862d2dd650b8ca049edb",
-  "jobId": "68b06a4dbd8507a86ecb0f9c"
-}
-
-
+json
+Copy code
+{ "userId": "68b0862d2dd650b8ca049edb", "jobId": "68b06a4dbd8507a86ecb0f9c" }
 Response:
 
-{
-  "message": "Application submitted successfully",
-  "jobId": "68b06a4dbd8507a86ecb0f9c",
-  "userId": "68b0862d2dd650b8ca049edb"
-}
+json
+Copy code
+{ "message": "Application submitted successfully", "jobId": "68b06a4dbd8507a86ecb0f9c", "userId": "68b0862d2dd650b8ca049edb" }
+6. Get All Jobs / User Applications
+GET /
+Optional filter by user:
 
-6. Get All Jobs or User Applications
+json
+Copy code
+{ "userId": "68b0862d2dd650b8ca049edb" }
+Response: Array of jobs or applied jobs.
 
-Endpoint: GET /
-
-Request Body (Optional filter by user):
-
-{
-  "userId": "68b0862d2dd650b8ca049edb"
-}
-
-
-Response Example:
-
-[]
-
-
-Returns all jobs or all jobs applied by the specified user.
-
-✅ Notes:
-
-Authentication: For protected routes (like posting jobs or applying), include the JWT token in headers:
-
+Notes
+Auth: Include JWT token in headers:
 Authorization: Bearer <your_token_here>
 
+Roles:
 
-User Roles:
+isAdmin = true → Admin (can post jobs)
 
-isAdmin = true → Admin user, can post jobs.
-
-isAdmin = false → Normal user, can apply for jobs.
+isAdmin = false → User (can apply for jobs)
